@@ -1,6 +1,3 @@
-import process from 'process';
-
-
 // step 1 
 process.stdout.write('welcome to mcp demo \n');
 
