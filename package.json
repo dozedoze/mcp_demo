@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "description": "mcp_demo",
+  "scripts": {
+    "start": "node client.js"
+  }
+}
