@@ -37,9 +37,11 @@ export const tools = {
 export default {
   initialize() {
     return {
-      protocolVersion: "2025-06-18",
+      protocolVersion: "2024-11-05",
       capabilities: {
-        logging: {},
+        logging: {
+          level: "debug",
+        },
         prompts: {
           listChanged: true,
         },
@@ -59,6 +61,12 @@ export default {
       },
       instructions: "Optional instructions for the client",
     };
+  },
+  "logging/setLevel"(params) {
+    // 接收客户端设置的日志级别
+    // 可选的日志级别: debug, info, notice, warning, error, critical, alert, emergency
+    console.error(`[MCP Server] 日志级别设置为: ${params?.level || "未指定"}`);
+    return {}; // 返回空对象表示成功
   },
   "tools/list"() {
     return {
