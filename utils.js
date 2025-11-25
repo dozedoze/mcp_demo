@@ -39,9 +39,7 @@ export default {
     return {
       protocolVersion: "2024-11-05",
       capabilities: {
-        logging: {
-          level: "debug",
-        },
+        // logging: {}, 如果写了logging，则必须实现logging/setLevel方法
         prompts: {
           listChanged: true,
         },
@@ -62,12 +60,12 @@ export default {
       instructions: "Optional instructions for the client",
     };
   },
-  "logging/setLevel"(params) {
-    // 接收客户端设置的日志级别
-    // 可选的日志级别: debug, info, notice, warning, error, critical, alert, emergency
-    console.error(`[MCP Server] 日志级别设置为: ${params?.level || "未指定"}`);
-    return {}; // 返回空对象表示成功
-  },
+  // "logging/setLevel"(params) {
+  //   // 接收客户端设置的日志级别
+  //   // 可选的日志级别: debug, info, notice, warning, error, critical, alert, emergency
+  //   console.error(`[MCP Server] 日志级别设置为: ${params?.level || "未指定"}`);
+  //   return {}; // 返回空对象表示成功
+  // },
   "tools/list"() {
     return {
       tools: [
