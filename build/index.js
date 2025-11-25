@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from 'zod';
@@ -10,18 +11,21 @@ const server = new McpServer({
 });
 server.registerTool("get_weather", {
     title: "获取天气信息",
-    description: "得到当前城市编码对应的天气信息",
+    description: "得到当前城市邮政编码对应的天气信息",
     inputSchema: z.object({
-        location: z.string().describe('城市编码'),
+        location: z.string().describe('城市邮政编码（例如：100000）'),
     }),
 }, async ({ location }) => {
     try {
-        const data = await fetch(`${NWS_API_BASE}/v3/weather/weatherInfo?city=${location}&key=${"acfa80d98b7d720563be58e89c8ec67a"}`);
+        if (!process.env.API_KEY) {
+            throw new Error("API_KEY is not set");
+        }
+        const data = await fetch(`${NWS_API_BASE}/v3/weather/weatherInfo?city=${location}&key=${process.env.API_KEY}`);
         const dataJSon = await data.json();
         // throw new Error(JSON.stringify(dataJSon));
         const { lives } = dataJSon;
         if (Array.isArray(lives[0])) {
-            throw new Error(`没有找到城市编码为${location}的城市`);
+            throw new Error(`没有找到城市邮政编码为${location}的城市`);
         }
         const result = {
             city: lives[0].city,

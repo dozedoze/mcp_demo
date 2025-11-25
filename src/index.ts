@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from 'zod';
@@ -20,7 +21,10 @@ server.registerTool("get_weather", {
   }),
 }, async ({ location }: { location: string }) => {
   try {
-    const data = await fetch(`${NWS_API_BASE}/v3/weather/weatherInfo?city=${location}&key=${"acfa80d98b7d720563be58e89c8ec67a"}`)
+    if (!process.env.API_KEY) {
+      throw new Error("API_KEY is not set");
+    }
+    const data = await fetch(`${NWS_API_BASE}/v3/weather/weatherInfo?city=${location}&key=${process.env.API_KEY}`)
     const dataJSon = await data.json();
     // throw new Error(JSON.stringify(dataJSon));
     const { lives } = dataJSon
