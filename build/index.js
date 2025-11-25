@@ -10,9 +10,9 @@ const server = new McpServer({
 });
 server.registerTool("get_weather", {
     title: "获取天气信息",
-    description: "得到当前城市邮政编码对应的天气信息",
+    description: "得到当前城市编码对应的天气信息",
     inputSchema: z.object({
-        location: z.string().describe('城市邮政编码（例如：100000）'),
+        location: z.string().describe('城市编码'),
     }),
 }, async ({ location }) => {
     try {
@@ -21,7 +21,7 @@ server.registerTool("get_weather", {
         // throw new Error(JSON.stringify(dataJSon));
         const { lives } = dataJSon;
         if (Array.isArray(lives[0])) {
-            throw new Error(`没有找到城市邮政编码为${location}的城市`);
+            throw new Error(`没有找到城市编码为${location}的城市`);
         }
         const result = {
             city: lives[0].city,
