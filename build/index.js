@@ -9,6 +9,23 @@ const server = new McpServer({
     name: "myToolServer",
     version: "1.0.0",
 });
+server.registerPrompt("get_weather", {
+    title: "获取天气信息",
+    description: "得到当前城市邮政编码对应的天气信息",
+    argsSchema: { location: z.string().describe('城市邮政编码（例如：100000）') },
+}, ({ location }) => {
+    return {
+        messages: [
+            {
+                role: 'user',
+                content: {
+                    type: 'text',
+                    text: `获取天气信息：${location}`
+                }
+            }
+        ]
+    };
+});
 server.registerTool("get_weather", {
     title: "获取天气信息",
     description: "得到当前城市邮政编码对应的天气信息",

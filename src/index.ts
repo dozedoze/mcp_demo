@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from 'zod';
 import fs from 'fs';
@@ -12,6 +12,25 @@ const server = new McpServer({
   version: "1.0.0",
 });
 
+
+server.registerPrompt("get_weather", {
+  title: "获取天气信息",
+  description: "得到当前城市邮政编码对应的天气信息",
+  argsSchema: { location: z.string().describe('城市邮政编码（例如：100000）') },
+
+}, ({ location }: { location: string }) => {
+  return {
+    messages: [
+      {
+        role: 'user',
+        content: {
+          type: 'text',
+          text: `获取天气信息：${location}`
+        }
+      }
+    ]
+  }
+});
 
 server.registerTool("get_weather", {
   title: "获取天气信息",
