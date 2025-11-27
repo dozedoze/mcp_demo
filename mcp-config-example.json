@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "lilysilk-tester": {
+      "command": "node",
+      "args": ["/home/chen1995/demo/mcp_demo/dist/index.js"]
+    }
+  }
+}
+
